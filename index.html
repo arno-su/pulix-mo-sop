@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>製令管理系統 SOP 操作手冊 ｜ 卜列仕精密</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0e17;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --border2: #253550;
+  --text: #e2e8f4;
+  --muted: #7a90b4;
+  --dim: #4a5a78;
+  --acc1: #3b82f6;
+  --acc1-glow: rgba(59,130,246,0.18);
+  --acc2: #10b981;
+  --acc3: #f59e0b;
+  --acc4: #8b5cf6;
+  --acc5: #ef4444;
+  --acc6: #06b6d4;
+  --c1: #3b82f6;
+  --c2: #10b981;
+  --c3: #8b5cf6;
+  --c4: #f59e0b;
+  --c5: #ef4444;
+  --radius: 12px;
+  --font: 'Noto Sans TC', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  line-height:1.7;
+}
+
+/* GRID LAYOUT */
+.layout{display:flex;min-height:100vh;}
+
+/* ───── SIDEBAR ───── */
+.sidebar{
+  width:272px;
+  flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  transition:width 0.3s;
+}
+
+.sidebar-logo{
+  padding:28px 22px 20px;
+  border-bottom:1px solid var(--border);
+}
+.logo-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#1d3a6b,#0f2040);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:8px 14px;
+  margin-bottom:12px;
+}
+.logo-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--acc2);
+  box-shadow:0 0 8px var(--acc2);
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.logo-text{font-size:0.75em;font-weight:700;letter-spacing:2px;color:#7ec8e3;text-transform:uppercase;}
+.sidebar-title{font-size:0.95em;font-weight:700;color:var(--text);margin-bottom:3px;}
+.sidebar-sub{font-size:0.72em;color:var(--muted);}
+
+.sidebar-nav{flex:1;padding:16px 12px;}
+.nav-section-label{
+  font-size:0.65em;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--dim);
+  text-transform:uppercase;
+  padding:12px 10px 6px;
+}
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.18s;
+  margin-bottom:2px;
+  text-decoration:none;
+  color:var(--muted);
+  font-size:0.85em;
+  font-weight:500;
+  position:relative;
+  overflow:hidden;
+}
+.nav-item::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:3px;
+  border-radius:0 2px 2px 0;
+  background:transparent;
+  transition:background 0.18s;
+}
+.nav-item:hover{
+  background:var(--surface2);
+  color:var(--text);
+}
+.nav-item.active{
+  background:var(--acc1-glow);
+  color:var(--acc1);
+}
+.nav-item.active::before{background:var(--acc1);}
+.nav-icon{
+  width:28px;height:28px;
+  border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9em;
+  flex-shrink:0;
+}
+.m1 .nav-icon{background:rgba(59,130,246,0.15);color:var(--c1);}
+.m2 .nav-icon{background:rgba(16,185,129,0.15);color:var(--c2);}
+.m3 .nav-icon{background:rgba(139,92,246,0.15);color:var(--c3);}
+.m4 .nav-icon{background:rgba(245,158,11,0.15);color:var(--c4);}
+.m5 .nav-icon{background:rgba(6,182,212,0.15);color:var(--acc6);}
+.m0 .nav-icon{background:rgba(255,255,255,0.06);color:var(--muted);}
+
+.nav-badge{
+  margin-left:auto;
+  font-size:0.65em;
+  font-weight:700;
+  padding:1px 6px;
+  border-radius:8px;
+  letter-spacing:0.5px;
+}
+.badge-blue{background:rgba(59,130,246,0.2);color:var(--c1);}
+.badge-green{background:rgba(16,185,129,0.2);color:var(--c2);}
+.badge-purple{background:rgba(139,92,246,0.2);color:var(--c3);}
+.badge-amber{background:rgba(245,158,11,0.2);color:var(--c4);}
+.badge-cyan{background:rgba(6,182,212,0.2);color:var(--acc6);}
+
+.sidebar-footer{
+  padding:14px 22px;
+  border-top:1px solid var(--border);
+  font-size:0.72em;
+  color:var(--dim);
+  line-height:1.5;
+}
+
+/* ───── MAIN CONTENT ───── */
+.main{flex:1;overflow-x:hidden;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#0d1829 0%,#0b1220 40%,#0a1530 100%);
+  border-bottom:1px solid var(--border);
+  padding:56px 56px 48px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-60px;right:-60px;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:-80px;left:100px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(16,185,129,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(59,130,246,0.1);
+  border:1px solid rgba(59,130,246,0.3);
+  border-radius:20px;
+  padding:4px 14px;
+  font-size:0.72em;
+  font-weight:700;
+  color:var(--acc1);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.hero h1{
+  font-size:2.4em;
+  font-weight:900;
+  line-height:1.2;
+  margin-bottom:14px;
+  background:linear-gradient(135deg,#e2e8f4 0%,#7ec8e3 60%,#3b82f6 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-desc{
+  font-size:1em;
+  color:var(--muted);
+  max-width:600px;
+  margin-bottom:32px;
+  line-height:1.8;
+}
+.hero-stats{
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.hero-stat{
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 20px;
+  text-align:center;
+}
+.hero-stat-num{font-size:1.6em;font-weight:900;color:var(--acc1);}
+.hero-stat-lbl{font-size:0.72em;color:var(--muted);margin-top:2px;}
+
+/* FLOW DIAGRAM */
+.flow-section{
+  padding:40px 56px;
+  border-bottom:1px solid var(--border);
+}
+.section-eyebrow{
+  font-size:0.68em;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-bottom:8px;
+}
+.section-title{
+  font-size:1.5em;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:6px;
+}
+.section-desc{
+  font-size:0.88em;
+  color:var(--muted);
+  margin-bottom:28px;
+}
+
+.flow-track{
+  display:flex;
+  align-items:center;
+  gap:0;
+  overflow-x:auto;
+  padding-bottom:8px;
+}
+.flow-node{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+}
+.flow-circle{
+  width:72px;height:72px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5em;
+  border:2px solid;
+  position:relative;
+  cursor:pointer;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.flow-circle:hover{transform:scale(1.08);}
+.fc1{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.5);box-shadow:0 0 20px rgba(59,130,246,0.15);}
+.fc1:hover{box-shadow:0 0 30px rgba(59,130,246,0.35);}
+.fc2{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.5);box-shadow:0 0 20px rgba(16,185,129,0.15);}
+.fc2:hover{box-shadow:0 0 30px rgba(16,185,129,0.35);}
+.fc3{background:rgba(139,92,246,0.12);border-color:rgba(139,92,246,0.5);box-shadow:0 0 20px rgba(139,92,246,0.15);}
+.fc3:hover{box-shadow:0 0 30px rgba(139,92,246,0.35);}
+.fc4{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.5);box-shadow:0 0 20px rgba(245,158,11,0.15);}
+.fc4:hover{box-shadow:0 0 30px rgba(245,158,11,0.35);}
+.fc5{background:rgba(6,182,212,0.12);border-color:rgba(6,182,212,0.5);box-shadow:0 0 20px rgba(6,182,212,0.15);}
+.fc5:hover{box-shadow:0 0 30px rgba(6,182,212,0.35);}
+.flow-node-label{font-size:0.72em;font-weight:700;color:var(--muted);text-align:center;white-space:nowrap;}
+.flow-node-num{font-size:0.65em;color:var(--dim);}
+.flow-arrow{
+  width:48px;height:2px;
+  background:linear-gradient(90deg,var(--border2),var(--border));
+  flex-shrink:0;
+  position:relative;
+  margin:0 -1px;
+  top:-22px;
+}
+.flow-arrow::after{
+  content:'';
+  position:absolute;
+  right:-1px;top:-4px;
+  border:5px solid transparent;
+  border-left:7px solid var(--border2);
+}
+
+/* STATUS PILLS */
+.status-flow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:24px;
+  padding:20px 24px;
+  background:var(--surface2);
+  border-radius:10px;
+  border:1px solid var(--border);
+}
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:0.78em;
+  font-weight:700;
+  border:1px solid;
+}
+.sp-new{background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.4);color:#60a5fa;}
+.sp-prod{background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.4);color:#fbbf24;}
+.sp-qc{background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.4);color:#a78bfa;}
+.sp-done{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.4);color:#34d399;}
+.sp-reject{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.4);color:#f87171;}
+.status-arrow{color:var(--dim);font-size:0.8em;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+
+/* MODULE SECTIONS */
+.module-section{
+  padding:40px 56px;
+  border-bottom:1px solid var(--border);
+  scroll-margin-top:20px;
+}
+.module-header{
+  display:flex;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:32px;
+}
+.module-icon{
+  width:56px;height:56px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4em;
+  flex-shrink:0;
+  border:1px solid;
+}
+.mi1{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.3);color:var(--c1);}
+.mi2{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.3);color:var(--c2);}
+.mi3{background:rgba(139,92,246,0.12);border-color:rgba(139,92,246,0.3);color:var(--c3);}
+.mi4{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--c4);}
+.mi5{background:rgba(6,182,212,0.12);border-color:rgba(6,182,212,0.3);color:var(--acc6);}
+.module-meta{flex:1;}
+.module-num{font-size:0.7em;font-weight:700;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:4px;}
+.module-title{font-size:1.35em;font-weight:800;color:var(--text);margin-bottom:6px;}
+.module-desc{font-size:0.88em;color:var(--muted);}
+
+/* URL CARD */
+.url-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
+.url-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px 16px;
+  transition:border-color 0.2s;
+}
+.url-card:hover{border-color:var(--border2);}
+.url-method{
+  font-family:var(--mono);
+  font-size:0.68em;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:5px;
+  flex-shrink:0;
+}
+.get{background:rgba(16,185,129,0.15);color:#34d399;}
+.post{background:rgba(245,158,11,0.15);color:#fbbf24;}
+.url-path{
+  font-family:var(--mono);
+  font-size:0.82em;
+  color:var(--text);
+  flex:1;
+  word-break:break-all;
+}
+.url-desc{font-size:0.75em;color:var(--muted);flex-shrink:0;}
+
+/* STEP CARDS */
+.steps{display:flex;flex-direction:column;gap:16px;margin-bottom:28px;}
+.step-card{
+  display:flex;
+  gap:16px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px;
+  position:relative;
+  transition:border-color 0.2s, transform 0.15s;
+}
+.step-card:hover{border-color:var(--border2);transform:translateX(3px);}
+.step-num{
+  width:32px;height:32px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8em;
+  font-weight:800;
+  flex-shrink:0;
+  border:2px solid;
+}
+.sn1{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.5);color:var(--c1);}
+.sn2{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.5);color:var(--c2);}
+.sn3{background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.5);color:var(--c3);}
+.sn4{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.5);color:var(--c4);}
+.sn5{background:rgba(6,182,212,0.15);border-color:rgba(6,182,212,0.5);color:var(--acc6);}
+.step-content{flex:1;}
+.step-title{font-size:0.92em;font-weight:700;color:var(--text);margin-bottom:5px;}
+.step-body{font-size:0.83em;color:var(--muted);line-height:1.75;}
+.step-body strong{color:var(--text);}
+.step-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:0.72em;font-weight:700;
+  padding:2px 8px;border-radius:12px;
+  margin-top:8px;
+  font-family:var(--mono);
+}
+.tag-auto{background:rgba(16,185,129,0.12);color:#34d399;}
+.tag-required{background:rgba(239,68,68,0.12);color:#f87171;}
+.tag-note{background:rgba(245,158,11,0.12);color:#fbbf24;}
+.tag-result{background:rgba(139,92,246,0.12);color:#a78bfa;}
+
+/* FIELD TABLE */
+.field-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.83em;
+  margin-bottom:20px;
+}
+.field-table thead th{
+  background:rgba(255,255,255,0.03);
+  color:var(--dim);
+  font-size:0.72em;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:10px 14px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.field-table tbody td{
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  color:var(--text);
+  vertical-align:top;
+}
+.field-table tbody tr:last-child td{border-bottom:none;}
+.field-table tbody tr:hover td{background:rgba(255,255,255,0.02);}
+.field-name{font-family:var(--mono);font-size:0.88em;color:var(--acc1);}
+.field-req{color:var(--acc5);font-size:0.75em;font-weight:700;}
+.field-opt{color:var(--dim);font-size:0.75em;}
+
+/* ALERT BOXES */
+.alert{
+  display:flex;
+  gap:12px;
+  padding:14px 18px;
+  border-radius:10px;
+  border-left:4px solid;
+  margin-bottom:14px;
+  font-size:0.84em;
+  line-height:1.7;
+}
+.alert-icon{font-size:1em;flex-shrink:0;margin-top:1px;}
+.alert-body{flex:1;}
+.alert-body strong{display:block;margin-bottom:3px;}
+.alert-info{background:rgba(59,130,246,0.08);border-color:var(--acc1);color:#93c5fd;}
+.alert-info strong{color:var(--acc1);}
+.alert-warn{background:rgba(245,158,11,0.08);border-color:var(--acc3);color:#fcd34d;}
+.alert-warn strong{color:var(--acc3);}
+.alert-success{background:rgba(16,185,129,0.08);border-color:var(--acc2);color:#6ee7b7;}
+.alert-success strong{color:var(--acc2);}
+.alert-danger{background:rgba(239,68,68,0.08);border-color:var(--acc5);color:#fca5a5;}
+.alert-danger strong{color:var(--acc5);}
+
+/* INLINE CODE */
+code{
+  font-family:var(--mono);
+  font-size:0.85em;
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1px 6px;
+  color:#93c5fd;
+}
+
+/* KANBAN VISUAL */
+.kanban-demo{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:10px;
+  margin-bottom:20px;
+}
+.k-col{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+}
+.k-col-header{
+  font-size:0.72em;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:10px;
+  padding-bottom:8px;
+  border-bottom:2px solid;
+  display:flex;align-items:center;gap:6px;
+}
+.kh1{border-color:rgba(59,130,246,0.5);color:#60a5fa;}
+.kh2{border-color:rgba(245,158,11,0.5);color:#fbbf24;}
+.kh3{border-color:rgba(139,92,246,0.5);color:#a78bfa;}
+.kh4{border-color:rgba(16,185,129,0.5);color:#34d399;}
+.k-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:8px 10px;
+  font-size:0.75em;
+  margin-bottom:6px;
+}
+.k-card-id{font-family:var(--mono);font-weight:700;color:var(--text);font-size:0.9em;}
+.k-card-meta{color:var(--muted);margin-top:2px;}
+.k-prog{background:rgba(255,255,255,0.06);border-radius:2px;height:4px;margin-top:6px;}
+.k-prog-fill{height:100%;border-radius:2px;}
+
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.check-item{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:0.84em;
+  color:var(--muted);
+  cursor:pointer;
+  transition:all 0.2s;
+  user-select:none;
+}
+.check-item:hover{border-color:var(--border2);}
+.check-item.checked{
+  background:rgba(16,185,129,0.06);
+  border-color:rgba(16,185,129,0.3);
+  color:var(--text);
+}
+.check-box{
+  width:18px;height:18px;
+  border-radius:4px;
+  border:2px solid var(--border2);
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7em;
+  transition:all 0.2s;
+  margin-top:1px;
+}
+.check-item.checked .check-box{
+  background:var(--acc2);
+  border-color:var(--acc2);
+  color:#fff;
+}
+
+/* TROUBLESHOOT */
+.trouble-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:20px;
+}
+.trouble-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px 18px;
+}
+.trouble-q{
+  font-size:0.82em;
+  font-weight:700;
+  color:var(--acc3);
+  margin-bottom:8px;
+  display:flex;align-items:flex-start;gap:6px;
+}
+.trouble-a{font-size:0.8em;color:var(--muted);line-height:1.7;}
+.trouble-a strong{color:var(--text);}
+
+/* DIVIDER */
+.module-divider{height:1px;background:var(--border);margin:0 56px;}
+
+/* BACK TO TOP */
+.back-top{
+  position:fixed;
+  bottom:28px;right:28px;
+  width:42px;height:42px;
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  font-size:1em;
+  color:var(--muted);
+  transition:all 0.2s;
+  opacity:0;
+  pointer-events:none;
+  z-index:50;
+}
+.back-top.show{opacity:1;pointer-events:auto;}
+.back-top:hover{background:var(--acc1-glow);border-color:var(--acc1);color:var(--acc1);}
+
+/* PROGRESS BAR */
+.progress-bar{
+  position:fixed;
+  top:0;left:0;right:0;
+  height:2px;
+  background:var(--border);
+  z-index:100;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--acc1),var(--acc2));
+  transition:width 0.1s;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .hero, .flow-section, .module-section{padding-left:24px;padding-right:24px;}
+  .module-divider{margin:0 24px;}
+  .trouble-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:1.7em;}
+  .hero-stats{gap:12px;}
+}
+
+/* ANIMATIONS */
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.animate-in{animation:fadeInUp 0.45s ease both;}
+.d1{animation-delay:0.05s;}
+.d2{animation-delay:0.12s;}
+.d3{animation-delay:0.19s;}
+.d4{animation-delay:0.26s;}
+.d5{animation-delay:0.33s;}
+
+/* PRINT */
+@media print{
+  .sidebar,.back-top,.progress-bar{display:none!important;}
+  body{background:#fff;color:#000;}
+  .hero{background:#f8f9fa;}
+  .module-section,.flow-section{padding:24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+<div class="layout">
+
+<!-- ───── SIDEBAR ───── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge">
+      <span class="logo-dot"></span>
+      <span class="logo-text">MES System</span>
+    </div>
+    <div class="sidebar-title">製令管理系統</div>
+    <div class="sidebar-sub">SOP 操作手冊 v1.0</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">總覽</div>
+    <a class="nav-item m0 active" href="#overview" onclick="setActive(this)">
+      <div class="nav-icon">📋</div>
+      系統總覽與流程
+    </a>
+
+    <div class="nav-section-label">作業模組</div>
+    <a class="nav-item m1" href="#module1" onclick="setActive(this)">
+      <div class="nav-icon">📝</div>
+      製令開單
+      <span class="nav-badge badge-blue">模組 01</span>
+    </a>
+    <a class="nav-item m2" href="#module2" onclick="setActive(this)">
+      <div class="nav-icon">🏭</div>
+      製令完工回報
+      <span class="nav-badge badge-green">模組 02</span>
+    </a>
+    <a class="nav-item m3" href="#module3" onclick="setActive(this)">
+      <div class="nav-icon">🔬</div>
+      製令品檢
+      <span class="nav-badge badge-purple">模組 03</span>
+    </a>
+    <a class="nav-item m4" href="#module4" onclick="setActive(this)">
+      <div class="nav-icon">📺</div>
+      電子看板
+      <span class="nav-badge badge-amber">模組 04</span>
+    </a>
+    <a class="nav-item m5" href="#module5" onclick="setActive(this)">
+      <div class="nav-icon">🔍</div>
+      製令查詢
+      <span class="nav-badge badge-cyan">模組 05</span>
+    </a>
+
+    <div class="nav-section-label">其他</div>
+    <a class="nav-item m0" href="#checklist" onclick="setActive(this)">
+      <div class="nav-icon">✅</div>
+      上線前確認清單
+    </a>
+    <a class="nav-item m0" href="#troubleshoot" onclick="setActive(this)">
+      <div class="nav-icon">🛠</div>
+      常見問題排查
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    卜列仕精密股份有限公司<br>
+    n8n + MySQL 自動化製令系統<br>
+    伺服器：192.168.0.25:5678
+  </div>
+</aside>
+
+<!-- ───── MAIN ───── -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero" id="overview">
+    <div class="hero-eyebrow animate-in d1">
+      <span>●</span> SOP 標準作業手冊
+    </div>
+    <h1 class="animate-in d2">製令管理系統<br>操作指南</h1>
+    <p class="hero-desc animate-in d3">
+      本系統整合 n8n 工作流自動化與 MySQL 資料庫，涵蓋製令從開單→生產→品檢→完成的完整生命週期管理。共五大操作模組，所有資料即時同步，無需人工轉抄。
+    </p>
+    <div class="hero-stats animate-in d4">
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-lbl">作業模組</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" style="color:var(--acc2)">100%</div>
+        <div class="hero-stat-lbl">自動化寫入</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" style="color:var(--acc3)">30s</div>
+        <div class="hero-stat-lbl">看板刷新週期</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" style="color:var(--acc4)">即時</div>
+        <div class="hero-stat-lbl">狀態同步</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOW -->
+  <section class="flow-section">
+    <div class="section-eyebrow">WORKFLOW</div>
+    <div class="section-title">製令生命週期流程</div>
+    <div class="section-desc">點擊各節點快速跳至對應模組說明</div>
+
+    <div class="flow-track">
+      <div class="flow-node">
+        <div class="flow-circle fc1" onclick="goto('module1')" title="前往模組一">📝</div>
+        <div class="flow-node-label">製令開單</div>
+        <div class="flow-node-num">模組 01</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-circle fc2" onclick="goto('module2')" title="前往模組二">🏭</div>
+        <div class="flow-node-label">完工回報</div>
+        <div class="flow-node-num">模組 02</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-circle fc3" onclick="goto('module3')" title="前往模組三">🔬</div>
+        <div class="flow-node-label">品質檢驗</div>
+        <div class="flow-node-num">模組 03</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-circle fc4" onclick="goto('module4')" title="前往模組四">📺</div>
+        <div class="flow-node-label">電子看板</div>
+        <div class="flow-node-num">模組 04</div>
+      </div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node">
+        <div class="flow-circle fc5" onclick="goto('module5')" title="前往模組五">🔍</div>
+        <div class="flow-node-label">製令查詢</div>
+        <div class="flow-node-num">模組 05</div>
+      </div>
+    </div>
+
+    <div class="status-flow">
+      <span style="font-size:0.75em;color:var(--dim);font-weight:700;margin-right:4px;">狀態流轉：</span>
+      <span class="status-pill sp-new"><span class="status-dot"></span> New 新建</span>
+      <span class="status-arrow">→</span>
+      <span class="status-pill sp-prod"><span class="status-dot"></span> In_Prod 生產中</span>
+      <span class="status-arrow">→</span>
+      <span class="status-pill sp-qc"><span class="status-dot"></span> In_QC 品檢中</span>
+      <span class="status-arrow">→</span>
+      <span class="status-pill sp-done"><span class="status-dot"></span> Done 完成</span>
+      <span style="font-size:0.75em;color:var(--dim);margin:0 6px;">或</span>
+      <span class="status-pill sp-reject"><span class="status-dot"></span> Reject 不合格</span>
+    </div>
+
+    <div class="alert alert-info" style="margin-top:16px;margin-bottom:0;">
+      <span class="alert-icon">💡</span>
+      <div class="alert-body">
+        <strong>狀態自動切換規則</strong>
+        累計完工量達到開單量時，系統自動將狀態從 <code>In_Prod</code> 切換為 <code>In_QC</code>（品檢中）。品檢送出後，系統依結果自動設定為 <code>Done</code>（合格/條件允收）或 <code>Reject</code>（不合格）。全程無需手動修改狀態。
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- ═══ MODULE 1 ═══ -->
+  <section class="module-section" id="module1">
+    <div class="module-header">
+      <div class="module-icon mi1">📝</div>
+      <div class="module-meta">
+        <div class="module-num">Module 01 · 製令開單</div>
+        <div class="module-title">新建製令工單</div>
+        <div class="module-desc">由規劃人員填寫客戶訂單、產品部番、生產數量與交期，系統自動產生製令單號並寫入資料庫。</div>
+      </div>
+    </div>
+
+    <div class="url-cards">
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.230/mo_new.html</span>
+        <span class="url-desc">開單表單頁面</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method post">POST</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/mo/submit</span>
+        <span class="url-desc">送出開單資料</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/api/next-mo</span>
+        <span class="url-desc">取得下一製令單號</span>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">🌐</span>
+      <div class="alert-body">
+        <strong>開啟方式</strong>
+        在內部網路電腦開啟瀏覽器，輸入網址 <code>http://192.168.0.230/mo_new.html</code>，或由系統管理員提供的桌面捷徑開啟。
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1em;margin-bottom:14px;">操作步驟</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num sn1">1</div>
+        <div class="step-content">
+          <div class="step-title">開啟表單，確認製令單號</div>
+          <div class="step-body">頁面載入後，系統會自動向伺服器取得本次的<strong>製令單號（MO-XXXXXXX）</strong>，顯示於藍色預覽框中。若顯示「載入中」超過5秒，請重新整理頁面。</div>
+          <span class="step-tag tag-auto">⚡ 系統自動產生</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn1">2</div>
+        <div class="step-content">
+          <div class="step-title">填寫客戶資訊</div>
+          <div class="step-body"><strong>客戶名稱</strong>（必填）：輸入客戶完整名稱，例如「XX精機股份有限公司」<br><strong>訂單編號</strong>（選填）：填入客戶提供的採購訂單號碼</div>
+          <span class="step-tag tag-required">✱ 客戶名稱必填</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn1">3</div>
+        <div class="step-content">
+          <div class="step-title">填寫產品資訊</div>
+          <div class="step-body"><strong>部番</strong>（必填）：產品料號，例如 <code>ACD-05045-B01</code><br><strong>預計完成日</strong>（必填）：客戶要求的交貨日期<br><strong>品名規格</strong>（選填）：產品名稱、材質、規格等補充說明</div>
+          <span class="step-tag tag-required">✱ 部番與交期必填</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn1">4</div>
+        <div class="step-content">
+          <div class="step-title">填寫數量與材料</div>
+          <div class="step-body"><strong>開單量</strong>（必填）：計畫生產件數，輸入正整數<br><strong>材料需量</strong>（選填）：所需原料規格，例如 <code>C.F 12X1B22 0.022*10</code><br><strong>備註</strong>：其他生產注意事項</div>
+          <span class="step-tag tag-required">✱ 開單量必填</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn1">5</div>
+        <div class="step-content">
+          <div class="step-title">送出開單</div>
+          <div class="step-body">確認所有必填欄位填寫完畢後，點擊「<strong>送出製令開單</strong>」按鈕。系統驗證資料後寫入資料庫，成功後顯示綠色提示訊息，並於2.5秒後自動重置表單，可繼續開立下一張製令。</div>
+          <span class="step-tag tag-result">✓ 成功後狀態 = New</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1em;margin-bottom:14px;">欄位說明</div>
+    <table class="field-table">
+      <thead><tr><th>欄位名稱</th><th>必填</th><th>說明</th></tr></thead>
+      <tbody>
+        <tr><td class="field-name">製令單號</td><td><span class="step-tag tag-auto" style="margin:0">自動</span></td><td>系統自動產生，格式：MO-YYYYMMDD-NNN</td></tr>
+        <tr><td class="field-name">開單日期</td><td><span class="field-req">必填</span></td><td>預設為今日，可手動調整</td></tr>
+        <tr><td class="field-name">客戶名稱</td><td><span class="field-req">必填</span></td><td>輸入客戶完整名稱</td></tr>
+        <tr><td class="field-name">訂單編號</td><td><span class="field-opt">選填</span></td><td>客戶採購單號</td></tr>
+        <tr><td class="field-name">部番</td><td><span class="field-req">必填</span></td><td>產品料號/型號</td></tr>
+        <tr><td class="field-name">預計完成日</td><td><span class="field-req">必填</span></td><td>客戶要求交貨日期</td></tr>
+        <tr><td class="field-name">品名規格</td><td><span class="field-opt">選填</span></td><td>品名、材質、規格說明</td></tr>
+        <tr><td class="field-name">開單量</td><td><span class="field-req">必填</span></td><td>計畫生產件數（正整數）</td></tr>
+        <tr><td class="field-name">材料需量</td><td><span class="field-opt">選填</span></td><td>原料規格與用量</td></tr>
+        <tr><td class="field-name">備註</td><td><span class="field-opt">選填</span></td><td>其他注意事項</td></tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-body">
+        <strong>注意事項</strong>
+        送出前請確認製令單號已正確顯示（非「載入中」狀態）。若單號未載入即送出，系統會提示錯誤，請重新整理頁面後再操作。
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- ═══ MODULE 2 ═══ -->
+  <section class="module-section" id="module2">
+    <div class="module-header">
+      <div class="module-icon mi2">🏭</div>
+      <div class="module-meta">
+        <div class="module-num">Module 02 · 製令完工回報</div>
+        <div class="module-title">生產完工數量回報</div>
+        <div class="module-desc">作業員每日或每批次完工後填寫回報。系統自動累計完工量，達到開單量時自動切換狀態為品檢中。</div>
+      </div>
+    </div>
+
+    <div class="url-cards">
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.230/mo_finish.html</span>
+        <span class="url-desc">完工表單頁面</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method post">POST</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/mo/finish-submit</span>
+        <span class="url-desc">送出完工回報</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/api/mo-active-list</span>
+        <span class="url-desc">取得待生產+生產中清單</span>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">📋</span>
+      <div class="alert-body">
+        <strong>適用場景</strong>
+        作業員每完成一批次加工後，即可開啟表單回報。<strong>同一製令可多次回報</strong>，系統累計加總。例如：開單量100件，可分3天分別回報30、40、30件。
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1em;margin-bottom:14px;">操作步驟</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num sn2">1</div>
+        <div class="step-content">
+          <div class="step-title">選擇製令單號</div>
+          <div class="step-body">下拉選單會自動列出所有<strong>「待生產」</strong>和<strong>「生產中」</strong>的製令單號，格式顯示為：<code>MO-XXXXXXX　客戶名稱　部番</code>。依照手上工作令選擇對應單號。</div>
+          <span class="step-tag tag-auto">⚡ 清單自動載入</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn2">2</div>
+        <div class="step-content">
+          <div class="step-title">確認訂單資訊與進度</div>
+          <div class="step-body">選擇單號後，系統自動顯示：<strong>客戶名稱、部番、品名規格、預計完成日、開單量</strong>，以及目前的<strong>完工進度百分比</strong>。若距離交期3天以內，會顯示橘色警示；逾期則顯示紅色。</div>
+          <span class="step-tag tag-auto">⚡ 資訊自動帶出</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn2">3</div>
+        <div class="step-content">
+          <div class="step-title">填寫加工資訊</div>
+          <div class="step-body"><strong>加工日期</strong>：預設今日，可調整<br><strong>加工人員</strong>（必填）：填入作業員姓名<br><strong>本批加工數量</strong>（必填）：本次完工的件數（非累計）<br><strong>模具狀況／備註</strong>：模具使用狀況、異常說明或使用模具編號</div>
+          <span class="step-tag tag-required">✱ 人員與數量必填</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn2">4</div>
+        <div class="step-content">
+          <div class="step-title">送出回報</div>
+          <div class="step-body">點擊「<strong>送出完工回報</strong>」按鈕。系統回報成功後顯示累計完工量。若累計量已達開單量，系統顯示提示：<strong>「✅ 已達開單量，狀態自動切換為【品檢中】！」</strong>，請告知品管人員進行品檢。</div>
+          <span class="step-tag tag-result">✓ 達標後自動→In_QC</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-success">
+      <span class="alert-icon">🔄</span>
+      <div class="alert-body">
+        <strong>多批次回報機制</strong>
+        本模組支援分批次回報。狀態從「New」第一次回報後自動切換為「In_Prod（生產中）」，之後每次回報持續累計，直到達到開單量後自動轉為「In_QC（品檢中）」。
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- ═══ MODULE 3 ═══ -->
+  <section class="module-section" id="module3">
+    <div class="module-header">
+      <div class="module-icon mi3">🔬</div>
+      <div class="module-meta">
+        <div class="module-num">Module 03 · 製令品檢</div>
+        <div class="module-title">品質檢驗作業</div>
+        <div class="module-desc">品管人員針對完工製令進行品質檢驗，記錄良品數量、不良品數量與品檢結果，系統自動計算良率並更新製令狀態。</div>
+      </div>
+    </div>
+
+    <div class="url-cards">
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/mo/qc</span>
+        <span class="url-desc">品檢表單頁面</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method post">POST</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/mo/qc-submit</span>
+        <span class="url-desc">送出品檢結果</span>
+      </div>
+    </div>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div class="alert-body">
+        <strong>適用時機</strong>
+        本模組僅顯示狀態為 <code>In_QC（品檢中）</code> 的製令。製令需先完成完工回報（達到開單量）後，才會出現在品檢清單中。
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1em;margin-bottom:14px;">操作步驟</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num sn3">1</div>
+        <div class="step-content">
+          <div class="step-title">選擇待品檢製令</div>
+          <div class="step-body">下拉選單僅顯示<strong>「品檢中」</strong>狀態的製令。選擇後自動顯示：客戶名稱、部番、完工量與開單量，作為品檢數量的參考依據。</div>
+          <span class="step-tag tag-auto">⚡ 僅顯示In_QC狀態</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn3">2</div>
+        <div class="step-content">
+          <div class="step-title">填寫品檢基本資料</div>
+          <div class="step-body"><strong>品檢日期</strong>：預設今日<br><strong>品檢人員</strong>（必填）：品管員姓名</div>
+          <span class="step-tag tag-required">✱ 品檢人員必填</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn3">3</div>
+        <div class="step-content">
+          <div class="step-title">輸入良品與不良品數量</div>
+          <div class="step-body">填入<strong>良品數量</strong>與<strong>不良品數量</strong>，系統即時計算並顯示<strong>良率百分比</strong>。良率≥98%顯示綠色，低於98%顯示橘色，表示需要特別注意品質。</div>
+          <span class="step-tag tag-auto">⚡ 良率即時計算</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn3">4</div>
+        <div class="step-content">
+          <div class="step-title">選擇品檢結果</div>
+          <div class="step-body">點擊三選一按鈕選擇品檢判定結果：<br>
+          <strong style="color:#34d399;">合格 PASS</strong>：全批通過品質標準<br>
+          <strong style="color:#f87171;">不合格 FAIL</strong>：全批不符合品質要求<br>
+          <strong style="color:#fbbf24;">條件允收</strong>：有條件接受，需在備註說明條件</div>
+          <span class="step-tag tag-required">✱ 品檢結果必選</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn3">5</div>
+        <div class="step-content">
+          <div class="step-title">填寫備註並送出</div>
+          <div class="step-body">在備註欄記錄<strong>不良原因、處置方式</strong>等。點擊送出後，系統自動更新製令狀態：<br>
+          合格/條件允收 → <code>Done（完成）</code><br>
+          不合格 → <code>Reject（不合格）</code></div>
+          <span class="step-tag tag-result">✓ 自動更新最終狀態</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger">
+      <span class="alert-icon">🚨</span>
+      <div class="alert-body">
+        <strong>Reject 處理流程</strong>
+        製令判定為「不合格 FAIL」後，狀態設定為 Reject，並停止後續作業。如需重工或處置，請聯絡主管依公司規定另行開立相關記錄。
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- ═══ MODULE 4 ═══ -->
+  <section class="module-section" id="module4">
+    <div class="module-header">
+      <div class="module-icon mi4">📺</div>
+      <div class="module-meta">
+        <div class="module-num">Module 04 · 數位電子看板</div>
+        <div class="module-title">生產現況即時看板</div>
+        <div class="module-desc">全廠生產狀態的視覺化儀表板，每30秒自動刷新資料，顯示所有製令的狀態、進度、交期警示與品檢結果。適合投影在廠區大螢幕。</div>
+      </div>
+    </div>
+
+    <div class="url-cards">
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/mo/kanban</span>
+        <span class="url-desc">電子看板頁面</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/api/kanban-data</span>
+        <span class="url-desc">看板資料API（30秒刷新）</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1em;margin-bottom:14px;">看板功能說明</div>
+    
+    <div class="kanban-demo">
+      <div class="k-col">
+        <div class="k-col-header kh1">📊 統計區</div>
+        <div style="font-size:0.75em;color:var(--muted);line-height:1.7;">點擊各狀態數字可快速篩選<br>顯示全部/待生產/生產中<br>品檢中/已完成各數量</div>
+      </div>
+      <div class="k-col">
+        <div class="k-col-header kh2">🃏 製令卡片</div>
+        <div class="k-card">
+          <div class="k-card-id">MO-20240108-001</div>
+          <div class="k-card-meta">某某精機 · ACD-05045-B01</div>
+          <div class="k-prog"><div class="k-prog-fill" style="width:65%;background:#3b82f6;"></div></div>
+        </div>
+        <div style="font-size:0.72em;color:var(--muted);">顯示進度條、交期、品檢結果</div>
+      </div>
+      <div class="k-col">
+        <div class="k-col-header kh3">⚠️ 交期警示</div>
+        <div style="font-size:0.75em;color:var(--muted);line-height:1.8;">
+          <span style="color:#34d399;">●</span> 剩 N 天（正常）<br>
+          <span style="color:#fbbf24;">●</span> 剩 3 天內（警告）<br>
+          <span style="color:#f87171;">●</span> 已逾期（緊急）
+        </div>
+      </div>
+      <div class="k-col">
+        <div class="k-col-header kh4">🔍 篩選搜尋</div>
+        <div style="font-size:0.75em;color:var(--muted);line-height:1.7;">上方按鈕篩選狀態<br>搜尋框可即時搜尋<br>單號/客戶/部番</div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num sn4">▶</div>
+        <div class="step-content">
+          <div class="step-title">大螢幕展示設定建議</div>
+          <div class="step-body">建議使用 Chrome 或 Edge 瀏覽器，按 <strong>F11</strong> 進入全螢幕模式。看板每30秒自動刷新，無需人工操作。若資料顯示「載入失敗」，請檢查伺服器連線狀態。</div>
+          <span class="step-tag tag-auto">⚡ 每30秒自動刷新</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn4">▶</div>
+        <div class="step-content">
+          <div class="step-title">資料排序邏輯</div>
+          <div class="step-body">看板卡片依優先順序排序：<strong>品檢中 → 生產中 → 待生產 → 不合格 → 已完成</strong>，同一狀態內再按交期由近至遠排列，讓最需要關注的訂單始終顯示在最前方。</div>
+          <span class="step-tag tag-note">📌 緊急優先顯示</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- ═══ MODULE 5 ═══ -->
+  <section class="module-section" id="module5">
+    <div class="module-header">
+      <div class="module-icon mi5">🔍</div>
+      <div class="module-meta">
+        <div class="module-num">Module 05 · 製令查詢儀表板</div>
+        <div class="module-title">歷史資料查詢與明細</div>
+        <div class="module-desc">提供完整的製令搜尋與篩選功能，可查詢任意時段的製令記錄，點擊即可展開完整明細（含完工紀錄、品檢紀錄），支援列印輸出。</div>
+      </div>
+    </div>
+
+    <div class="url-cards">
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/mo/query</span>
+        <span class="url-desc">查詢儀表板頁面</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/api/mo-search</span>
+        <span class="url-desc">製令搜尋API</span>
+      </div>
+      <div class="url-card">
+        <span class="url-method get">GET</span>
+        <span class="url-path">http://192.168.0.25:5678/webhook/api/mo-detail?mo_number=MO-xxx</span>
+        <span class="url-desc">製令完整明細API</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1em;margin-bottom:14px;">查詢功能說明</div>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num sn5">1</div>
+        <div class="step-content">
+          <div class="step-title">條件搜尋</div>
+          <div class="step-body">頁面提供6種篩選條件，可單獨或組合使用：<strong>製令單號</strong>（支援模糊搜尋）、<strong>客戶名稱</strong>關鍵字、<strong>部番</strong>關鍵字、<strong>狀態篩選</strong>（下拉選單）、<strong>開單日期區間</strong>（起訖日期）。</div>
+          <span class="step-tag tag-auto">⚡ 多條件組合篩選</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn5">2</div>
+        <div class="step-content">
+          <div class="step-title">統計卡片快速篩選</div>
+          <div class="step-body">頁面上方顯示各狀態的製令數量統計（全部/New/生產中/品檢中/完成/不合格）。直接點擊統計卡片可快速篩選該狀態，再次點擊「全部」恢復顯示所有記錄。</div>
+          <span class="step-tag tag-note">📌 點擊即篩選</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn5">3</div>
+        <div class="step-content">
+          <div class="step-title">查看製令明細</div>
+          <div class="step-body">點擊結果清單中的任一行，彈出視窗顯示完整製令明細，包含：<strong>基本資料、完工紀錄清單（含每批次作業員與數量）、品檢紀錄清單（含良率與品管員）</strong>。</div>
+          <span class="step-tag tag-auto">⚡ 點擊展開完整明細</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num sn5">4</div>
+        <div class="step-content">
+          <div class="step-title">列印製令報表</div>
+          <div class="step-body">在明細視窗中點擊「🖨️ 列印」按鈕，瀏覽器會開啟列印對話框，輸出格式已針對紙本優化，包含所有完工與品檢記錄。可做為生產完工憑證留存。</div>
+          <span class="step-tag tag-note">🖨️ 支援列印輸出</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- CHECKLIST -->
+  <section class="module-section" id="checklist">
+    <div class="section-eyebrow">CHECKLIST</div>
+    <div class="section-title">系統上線前確認清單</div>
+    <div class="section-desc">點擊每項確認完成，確保系統正常運作</div>
+
+    <div class="checklist">
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>n8n 伺服器正常運行</strong> — 確認 192.168.0.25:5678 可正常連線存取</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>五個工作流均已啟用</strong> — 在 n8n 管理介面確認 99_01 到 99_05 工作流狀態為「Active」</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>MySQL 資料庫連線正常</strong> — 確認 mtr_system 資料庫、production_orders 及 qc_logs 資料表已建立</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>開單表單可正常開啟並取得單號</strong> — 訪問 mo_new.html，確認製令單號正常顯示（非「載入中」）</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>完工表單下拉清單正常載入</strong> — 訪問 mo_finish.html，確認製令清單可正常顯示</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>電子看板頁面可正常顯示</strong> — 訪問 /webhook/mo/kanban，確認卡片資料正常載入</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>查詢儀表板功能正常</strong> — 訪問 /webhook/mo/query，點擊測試資料行確認明細視窗可開啟</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>開立測試製令並走完整流程</strong> — 測試：開單→完工回報→品檢→查詢，確認所有狀態轉換正確</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>廠區螢幕展示設定完成</strong> — 電子看板已在大螢幕開啟並設定全螢幕模式</div>
+      </div>
+      <div class="check-item" onclick="toggle(this)">
+        <div class="check-box">✓</div>
+        <div><strong>同仁基本操作培訓完成</strong> — 確認相關人員（開單、生產、品管）已了解各自負責的操作模組</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="module-divider"></div>
+
+  <!-- TROUBLESHOOT -->
+  <section class="module-section" id="troubleshoot">
+    <div class="section-eyebrow">TROUBLESHOOTING</div>
+    <div class="section-title">常見問題排查</div>
+    <div class="section-desc">遇到問題時，請先依以下步驟排查</div>
+
+    <div class="trouble-grid">
+      <div class="trouble-card">
+        <div class="trouble-q">❓ 開單表單顯示「無法取得」製令單號</div>
+        <div class="trouble-a">
+          <strong>可能原因：</strong>n8n 伺服器未啟動，或工作流 99_01 未啟用。<br>
+          <strong>排查步驟：</strong>① 確認 192.168.0.25:5678 可連線 ② 在 n8n 後台確認工作流狀態 ③ 重新整理頁面
+        </div>
+      </div>
+      <div class="trouble-card">
+        <div class="trouble-q">❓ 完工表單下拉清單顯示「目前無待生產」</div>
+        <div class="trouble-a">
+          <strong>可能原因：</strong>尚未開立製令，或所有製令已進入品檢/完成狀態。<br>
+          <strong>排查步驟：</strong>① 至製令查詢確認是否有 New/In_Prod 狀態製令 ② 確認是否需先完成開單
+        </div>
+      </div>
+      <div class="trouble-card">
+        <div class="trouble-q">❓ 送出完工後，看板狀態沒有更新</div>
+        <div class="trouble-a">
+          <strong>可能原因：</strong>看板需等待下次刷新（最長30秒）。<br>
+          <strong>排查步驟：</strong>① 等待30秒後觀察 ② 手動重新整理看板頁面 ③ 至查詢儀表板確認資料是否已寫入
+        </div>
+      </div>
+      <div class="trouble-card">
+        <div class="trouble-q">❓ 品檢清單中找不到完工的製令</div>
+        <div class="trouble-a">
+          <strong>可能原因：</strong>該製令累計完工量尚未達到開單量。<br>
+          <strong>排查步驟：</strong>① 至查詢儀表板確認累計完工量 ② 繼續回報完工數量直到達標 ③ 達標後狀態自動轉為 In_QC
+        </div>
+      </div>
+      <div class="trouble-card">
+        <div class="trouble-q">❓ 頁面顯示「API格式異常」或空白</div>
+        <div class="trouble-a">
+          <strong>可能原因：</strong>n8n 工作流節點錯誤，MySQL 查詢失敗。<br>
+          <strong>排查步驟：</strong>① 查看 n8n 執行記錄中的錯誤訊息 ② 確認 MySQL 服務正常運行 ③ 確認資料表結構正確
+        </div>
+      </div>
+      <div class="trouble-card">
+        <div class="trouble-q">❓ 送出表單後一直顯示「送出中」</div>
+        <div class="trouble-a">
+          <strong>可能原因：</strong>網路逾時或伺服器負載過高。<br>
+          <strong>排查步驟：</strong>① 等待最多30秒 ② 重新整理頁面，至查詢儀表板確認資料是否已寫入（避免重複送出）③ 如確認未寫入再重新送出
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">📞</span>
+      <div class="alert-body">
+        <strong>需要進一步協助？</strong>
+        請聯絡系統管理員，並提供：① 發生問題的時間 ② 執行的操作步驟 ③ 畫面錯誤訊息（可截圖）。管理員可在 n8n 後台查看詳細執行日誌進行排查。
+      </div>
+    </div>
+
+    <!-- 最後說明 -->
+    <div style="margin-top:40px;padding:24px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;text-align:center;">
+      <div style="font-size:1.8em;margin-bottom:12px;">🏭</div>
+      <div style="font-size:1em;font-weight:700;color:var(--text);margin-bottom:6px;">卜列仕精密股份有限公司</div>
+      <div style="font-size:0.83em;color:var(--muted);line-height:1.8;">
+        製令管理自動化系統 · n8n + MySQL<br>
+        本手冊涵蓋五大作業模組的完整操作流程<br>
+        如有功能建議或流程調整需求，請聯絡系統管理員
+      </div>
+      <div style="margin-top:16px;font-size:0.72em;color:var(--dim);">SOP v1.0 · 2026年製</div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- Back to Top -->
+<div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+  document.getElementById('progressFill').style.width = scrolled + '%';
+  document.getElementById('backTop').classList.toggle('show', doc.scrollTop > 300);
+});
+
+// Nav active state
+function setActive(el) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Scroll to section
+function goto(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+// Checklist toggle
+function toggle(el) {
+  el.classList.toggle('checked');
+}
+
+// Auto-highlight nav on scroll
+const sections = ['overview','module1','module2','module3','module4','module5','checklist','troubleshoot'];
+const navLinks = {};
+sections.forEach(id => {
+  const link = document.querySelector(`a[href="#${id}"]`);
+  if(link) navLinks[id] = link;
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      const id = entry.target.id;
+      if(navLinks[id]) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        navLinks[id].classList.add('active');
+      }
+    }
+  });
+}, {threshold: 0.3, rootMargin: '-60px 0px -60% 0px'});
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+</script>
+</body>
+</html>
